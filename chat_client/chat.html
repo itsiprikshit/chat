@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<link rel = "stylesheet" type="text/css" href="style/style.css" />
+<head>
+	<title>Welcome</title>
+</head>
+<body>
+    <ul id="messages"></ul>
+    
+    <form action="">
+      <input id="message" autocomplete="off" placeholder="Type your message here"/><button>Send</button>
+    </form>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+  		var socket = io("127.0.0.1:3128");
+
+  		$('form').submit(function(){
+  			var message = $('#message').val();
+        	socket.emit('chat_message', message);
+        	$('#message').val('');
+        	return false;
+        });
+        
+  		socket.on('connect', function(){
+  			name = prompt("What is your name ?");
+  			socket.emit('join', name);
+  		});
+
+  		socket.on('new_user', function(user){
+  			$('#messages').append($('<li>').text(user));
+  		})
+
+        socket.on('chat_message', function(msg){
+        	$('#messages').append($('<li>').text(msg));
+        });
+    </script>
+</body>
+</html>
