@@ -23,13 +23,14 @@ io.on('connection', function(socket){
   socket.on('join', function(name){
   	console.log(name + " connected.");
   	socket.username = name;
-  	io.emit('new_user', name + " joined.");
+  	io.emit('new_user', socket.username + " joined.");
   });
 
   console.log(socket.username + ' connected.');
 
   socket.on('disconnect', function(){
     console.log(socket.username + ' disconnected.');
+    io.emit('user_left', socket.username + " left.");
   });
 
   socket.on('chat_message', function(msg){

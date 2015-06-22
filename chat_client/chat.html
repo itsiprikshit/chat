@@ -30,7 +30,11 @@
   		});
 
   		socket.on('new_user', function(user){
-  			$('#messages').append($('<li>').text(user));
+  			$('#messages').append($('<li style="background: #04B404">').text(user));
+  		})
+
+  		socket.on('user_left', function(user){
+  			$('#messages').append($('<li style="background: #EB2727">').text(user));
   		})
 
         socket.on('chat_message', function(msg){
